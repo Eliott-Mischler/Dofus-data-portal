@@ -1,0 +1,26 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Snapshot {
+  id          Int           @id @default(autoincrement())
+  dateTime    DateTime?     @db.Timestamp(6) @map("date_time")
+  itemPrice   ItemPrice[]
+
+  @@map("date_times")
+}
+
+model ItemPrice {
+  id           Int         @id @default(autoincrement())
+  name         String?     @db.VarChar
+  price        Int?        
+  snapshotId   Int?        @map("date_time_id")
+  snapshot     Snapshot?   @relation(fields: [snapshotId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@map("item_prices")
+}
