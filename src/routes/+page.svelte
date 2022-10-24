@@ -4,6 +4,7 @@
 	import { Chart, registerables } from 'chart.js';
 	import { onMount, afterUpdate } from 'svelte';
 	import 'chartjs-adapter-luxon';
+	import { DateTime } from 'luxon';
 
 	Chart.register(...registerables);
 	let lineChartElement;
@@ -16,11 +17,9 @@
 			});
 		}
 	});
-
-	let format = new Intl.DateTimeFormat();
 	let chosenItem;
 	let graphData = {
-		labels: '',
+		labels: [],
 		datasets: []
 	};
 	let allVals = [];
@@ -63,15 +62,22 @@
 		}).then((resp) => resp.json());
 
 		await response.forEach((log) => {
-			labels.push(format.format(new Date(log.snapshot.dateTime)));
+			labels.push(DateTime.fromISO(log.snapshot.dateTime));
 			values.push(parseInt(log.price));
 		});
 
-		if (!graphData.labels) {
-			graphData.labels = labels;
-		}
-		let primary = nb < 7 ? rgbs[nb].primary : 'rgb(255,255,255)'
-		let secondary = nb < 7 ? rgbs[nb].secondary : 'rgba(150,150,150,0.3)'
+		graphData.labels = Array.from(
+			new Set(
+				labels
+					.concat(graphData.labels)
+					.map((d) => DateTime.fromISO(d))
+					.sort((date1, date2) => date1.toMillis() - date2.toMillis())
+					.map((date) => date.toString())
+			)
+		);
+
+		let primary = nb < 7 ? rgbs[nb].primary : 'rgb(255,255,255)';
+		let secondary = nb < 7 ? rgbs[nb].secondary : 'rgba(150,150,150,0.3)';
 
 		graphData.datasets.push({
 			label: chosenItem,
@@ -88,7 +94,7 @@
 			pointHoverBorderColor: 'rgba(220, 220, 220,1)',
 			pointHoverBorderWidth: 3,
 			pointHitRadius: 12,
-			data: values
+			data: values.map((value, i) => ({ x: labels[i], y: value }))
 		});
 		nb++;
 
@@ -96,7 +102,9 @@
 		let min = Math.floor(
 			Math.max(0, Math.min(...allVals) - (Math.max(...allVals) - Math.min(...allVals)) * 3)
 		);
-		let max = Math.floor(Math.max(...allVals) + Math.max(Math.min(...allVals) - min, Math.max(...allVals) * 0.5));
+		let max = Math.floor(
+			Math.max(...allVals) + Math.max(Math.min(...allVals) - min, Math.max(...allVals) * 0.5)
+		);
 		let log = Math.max(...allVals) / Math.min(...allVals) > 10 ? true : false;
 		myChart.destroy();
 		myChart = new Chart(lineChartElement, {
@@ -118,27 +126,41 @@
 					x: {
 						type: 'time',
 						time: {
-							unit: 'day',
-							parser: 'dd/MM/yyyy'
+							unit: 'day'
 						},
+
 						ticks: {
 							color: 'rgb(190, 201, 209)'
 						},
 						title: {
 							display: true,
 							text: 'Date',
-							color: 'rgb(190, 201, 209)'
+							color: 'rgb(190, 201, 209)',
+							font : {
+								size: 28,
+								weight: 'bold'
+							},
+						},
+						grid: {
+							color: 'rgba(190, 201, 209, 0.1)'
 						}
 					},
 					y: {
 						title: {
 							display: true,
-							text: log ? 'Price (Log)': 'Price',
-							color: log ? 'rgb(207, 176, 52)' : 'rgb(190, 201, 209)' 
+							text: log ? 'Price (Log)' : 'Price',
+							color: log ? 'rgb(207, 176, 52)' : 'rgb(190, 201, 209)',
+							font : {
+								size: 28,
+								weight: 'bold'
+							}
 						},
 						type: Math.max(...allVals) / Math.min(...allVals) > 10 ? 'logarithmic' : 'linear',
 						ticks: {
 							color: 'rgb(190, 201, 209)'
+						},
+						grid: {
+							color: 'rgba(190, 201, 209, 0.1)'
 						},
 						min,
 						max
@@ -146,8 +168,6 @@
 				}
 			}
 		});
-		console.log(Math.max(...allVals))
-		console.log(max)
 	}
 
 	function reset() {
@@ -155,11 +175,10 @@
 		nb = 0;
 		allVals = [];
 		graphData = {
-			labels: '',
+			labels: [],
 			datasets: []
 		};
 	}
-
 </script>
 
 <div style="height : 50px; display: flex; align-items: flex-start;">

@@ -10,6 +10,7 @@ datasource db {
 model Snapshot {
   id          Int           @id @default(autoincrement())
   dateTime    DateTime?     @db.Timestamp(6) @map("date_time")
+  type        String?       @db.VarChar
   itemPrice   ItemPrice[]
 
   @@map("date_times")
