@@ -5,6 +5,7 @@
 	import { onMount, afterUpdate } from 'svelte';
 	import 'chartjs-adapter-luxon';
 	import { DateTime } from 'luxon';
+	import Layout from './+layout.svelte';
 
 	Chart.register(...registerables);
 	let lineChartElement;
@@ -53,6 +54,7 @@
 	async function graph() {
 		let labels = [];
 		let values = [];
+		let lvs = [];
 		let response = await fetch('/api', {
 			method: 'POST',
 			body: JSON.stringify(chosenItem),
@@ -60,12 +62,17 @@
 				'content-type': 'application/json'
 			}
 		}).then((resp) => resp.json());
-
+		console.log(response);
 		await response.forEach((log) => {
-			labels.push(DateTime.fromISO(log.snapshot.dateTime));
-			values.push(parseInt(log.price));
+			lvs.push({x : DateTime.fromISO(log.snapshot.dateTime),
+					  y : parseInt(log.price)})
 		});
 
+		lvs.sort((lv1, lv2) => lv1.x.toMillis() - lv2.x.toMillis())
+		for(let lv of lvs){
+			labels.push(lv.x)
+			values.push(lv.y)
+		}
 		graphData.labels = Array.from(
 			new Set(
 				labels
@@ -94,7 +101,7 @@
 			pointHoverBorderColor: 'rgba(220, 220, 220,1)',
 			pointHoverBorderWidth: 3,
 			pointHitRadius: 12,
-			data: values.map((value, i) => ({ x: labels[i], y: value }))
+			data: lvs
 		});
 		nb++;
 
@@ -148,7 +155,7 @@
 					y: {
 						title: {
 							display: true,
-							text: log ? 'Price (Log)' : 'Price',
+							text: log ? 'Price (log)' : 'Price',
 							color: log ? 'rgb(207, 176, 52)' : 'rgb(190, 201, 209)',
 							font : {
 								size: 28,
@@ -191,8 +198,8 @@
 	</button>
 </div>
 <datalist id="item-names">
-	{#each data.names as line}
-		<option value={line.name}>{line.name}</option>
+	{#each data.names.map(d => ({name : d.itemName.name})) as item}
+		<option value={item.name}>{item.name}</option>
 	{/each}
 </datalist>
 <canvas bind:this={lineChartElement} style="width:16;height:9;max-height: 80%;" />

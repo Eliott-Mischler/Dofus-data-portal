@@ -3,12 +3,16 @@ import { prisma } from "$lib/db";
 
 export async function load() {
     const names = await prisma.ItemPrice.findMany({
-        distinct: ['name'],
+        distinct: ['itemNameId'],
         select: {
-            name : true
+            itemName: {
+                select: {
+                    name: true
+                }
+            }
         }
     })
-    if (names) return {names : names};
+    if (names) return { names };
     throw error(404, 'Database query failure')
 
 }

@@ -20,8 +20,21 @@ model ItemPrice {
   id           Int         @id @default(autoincrement())
   name         String?     @db.VarChar
   price        Int?        
+
+  itemNameId   Int?        @map("item_name_id")
+  itemName     ItemName?   @relation(fields: [itemNameId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
   snapshotId   Int?        @map("date_time_id")
   snapshot     Snapshot?   @relation(fields: [snapshotId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
+
   @@map("item_prices")
+}
+
+model ItemName {
+  id          Int         @id @default(autoincrement())
+  name        String?     @db.VarChar
+  itemPrice   ItemPrice[]
+
+  @@map("item_names")
 }

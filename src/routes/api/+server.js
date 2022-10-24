@@ -13,7 +13,9 @@ export async function POST({request}) {
                 }
             },
             where : {
-                name: name
+                itemName : {
+                    name : name
+                }
             }
         }))
 }
