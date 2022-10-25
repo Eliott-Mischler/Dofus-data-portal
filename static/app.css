@@ -1,0 +1,55 @@
+@import url('https://fonts.googleapis.com/css2?family=Maven+Pro&display=swap');
+
+* {
+    color : rgb(233, 233, 228);
+}
+body {
+    background-color: rgb(20, 20, 20);
+    margin : 0;
+    padding : 0;
+}
+button, input {
+    color:rgb(29, 28, 28);
+}
+
+
+
+nav div{
+    display : flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-left: 120px;
+    gap: 35px;
+    background-color: rgb(39, 14, 84);
+    height: 60px;
+}
+
+nav div a {
+    color :rgb(233, 233, 228);
+    font-family: 'Maven Pro', sans-serif;
+    font-weight: bold;
+    text-decoration: none;
+    transition: 0.1s ease-out border-bottom;
+}
+
+nav div a:hover{
+    color:rgb(255, 255, 255);
+    border-bottom:3px solid rgb(233, 233, 228);
+}
+
+
+.centered-top-div {
+    margin-top: 20px;
+    display: flex; 
+    align-items: center;
+    justify-content: center;
+}
+
+.recipe-form {
+    align-items: center;
+    display:grid;
+    width : 300px;
+    grid-template-columns: 1fr 1fr;
+    row-gap: 4px;
+    column-gap: 8px;
+}

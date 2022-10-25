@@ -2,11 +2,9 @@
 	export let data;
 	import { browser } from '$app/environment';
 	import { Chart, registerables } from 'chart.js';
-	import { onMount, afterUpdate } from 'svelte';
+	import { onMount } from 'svelte';
 	import 'chartjs-adapter-luxon';
 	import { DateTime } from 'luxon';
-	import Layout from './+layout.svelte';
-
 	Chart.register(...registerables);
 	let lineChartElement;
 
@@ -107,7 +105,7 @@
 
 		allVals = allVals.concat(values);
 		let min = Math.floor(
-			Math.max(0, Math.min(...allVals) - (Math.max(...allVals) - Math.min(...allVals)) * 3)
+			Math.max(0, Math.min(Math.min(...allVals) - (Math.max(...allVals) - Math.min(...allVals)) * 3, Math.min(...allVals) * 0.6))
 		);
 		let max = Math.floor(
 			Math.max(...allVals) + Math.max(Math.min(...allVals) - min, Math.max(...allVals) * 0.5)
@@ -188,7 +186,7 @@
 	}
 </script>
 
-<div style="height : 50px; display: flex; align-items: flex-start;">
+<div class="centered-top-div">
 	<input type="text" id="item-name" list="item-names" bind:value={chosenItem} />
 	<button on:click={graph} style="border: 0; background: 0;">
 		<img src="/plus-icon.svg" alt="reset" style="height:20px" />
@@ -197,8 +195,9 @@
 		<img src="/reset-8.svg" alt="reset" style="height:20px" />
 	</button>
 </div>
+
 <datalist id="item-names">
-	{#each data.names.map(d => ({name : d.itemName.name})) as item}
+	{#each data.names as item}
 		<option value={item.name}>{item.name}</option>
 	{/each}
 </datalist>
