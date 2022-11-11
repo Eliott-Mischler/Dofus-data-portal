@@ -8,33 +8,59 @@ datasource db {
 }
 
 model Snapshot {
-  id          Int           @id @default(autoincrement())
-  dateTime    DateTime?     @db.Timestamp(6) @map("date_time")
-  type        String?       @db.VarChar
-  itemPrice   ItemPrice[]
+  id        Int         @id @default(autoincrement())
+  dateTime  DateTime?   @map("date_time") @db.Timestamp(6)
+  type      String?
+  itemPrice ItemPrice[]
 
   @@map("date_times")
 }
 
 model ItemPrice {
-  id           Int         @id @default(autoincrement())
-  name         String?     @db.VarChar
-  price        Int?        
-
-  itemNameId   Int?        @map("item_name_id")
-  itemName     ItemName?   @relation(fields: [itemNameId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-
-  snapshotId   Int?        @map("date_time_id")
-  snapshot     Snapshot?   @relation(fields: [snapshotId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-
+  id         Int       @id @default(autoincrement())
+  price      Int?
+  snapshotId Int?      @map("date_time_id")
+  itemNameId Int?      @map("item_name_id")
+  snapshot   Snapshot? @relation(fields: [snapshotId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@map("item_prices")
 }
 
 model ItemName {
-  id          Int         @id @default(autoincrement())
-  name        String?     @db.VarChar
-  itemPrice   ItemPrice[]
+  id   Int     @id @default(autoincrement())
+  name String?
 
   @@map("item_names")
+}
+
+model CraftingCost {
+  id         Int  @id @default(autoincrement())
+  price      Int?
+  dateTimeId Int? @map("date_time_id")
+  resultId   Int? @unique @map("result_id")
+
+  @@map("crafting_costs")
+}
+
+model Recipe {
+  id                  Int  @id @default(autoincrement())
+  resultId            Int  @map("result_id")
+  ingredient_1        Int?
+  ingredient_2        Int?
+  ingredient_3        Int?
+  ingredient_4        Int?
+  ingredient_5        Int?
+  ingredient_6        Int?
+  ingredient_7        Int?
+  ingredient_8        Int?
+  ingredient_1_amount Int?
+  ingredient_2_amount Int?
+  ingredient_3_amount Int?
+  ingredient_4_amount Int?
+  ingredient_5_amount Int?
+  ingredient_6_amount Int?
+  ingredient_7_amount Int?
+  ingredient_8_amount Int?
+
+  @@map("recipes")
 }

@@ -2,6 +2,7 @@
 
 * {
     color : rgb(233, 233, 228);
+    font-family: 'Maven Pro', sans-serif;
 }
 body {
     background-color: rgb(20, 20, 20);
@@ -13,6 +14,10 @@ button, input {
 }
 
 
+.success {
+    color : green;
+    font-weight: bold;
+}
 
 nav div{
     display : flex;
@@ -26,7 +31,6 @@ nav div{
 
 nav div a {
     color :rgb(233, 233, 228);
-    font-family: 'Maven Pro', sans-serif;
     font-weight: bold;
     text-decoration: none;
     transition: 0.1s ease-out border-bottom;
@@ -48,8 +52,77 @@ nav div a:hover{
 .recipe-form {
     align-items: center;
     display:grid;
-    width : 300px;
-    grid-template-columns: 1fr 1fr;
+    width : 400px;
+    grid-template-columns: 2fr 3fr 1fr;
     row-gap: 4px;
     column-gap: 8px;
+}
+
+.recipe-form * {
+    width: 95%;
+    place-self: center;
+    text-align : center;
+}
+.recipe-form label {
+    grid-column : 1;
+}
+
+.recipe-form .ing {
+    grid-column : 2;
+    place-self: center;
+}
+
+.qte {
+    grid-column : 3;
+    width : 60%;
+}
+
+
+.ing.send {
+    width : 50%;
+    font-weight: 600;
+}
+
+.error {
+    color:red;
+}
+
+.heading-title {
+    display: flex;
+    align-items: center;
+    gap: 1vw;
+    margin-left: 25vw;
+}
+
+.recipes {
+    display:grid;
+    gap: 6vw;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 22vh;
+    grid-template-rows: fit-content;
+    margin: auto;
+    width: 75vw;
+}
+
+
+.ingredient {
+    margin :  2px;
+    padding : 0;
+}
+
+.recipe-card {
+    padding: 10px;
+    border-radius: 25px;
+    background: rgb(81, 8, 95);
+    height: clamp(300px, 25vh, 600px);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    text-align: center;
+}
+.cost {
+    position: absolute;
+    bottom: 0;
+    align-self: center;
 }
