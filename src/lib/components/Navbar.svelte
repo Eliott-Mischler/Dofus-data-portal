@@ -3,6 +3,7 @@
         <a href="/">Accueil</a>
         <a href="/history">Historique</a>
         <a href="/recipes">Recettes</a>
+        <a href="/stats">Statistiques</a>
         <a href="/breaking">Brisage</a>
         <a href="/recommendations">Recommendations</a>
     </div>

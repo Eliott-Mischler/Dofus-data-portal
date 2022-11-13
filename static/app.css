@@ -126,3 +126,44 @@ nav div a:hover{
     bottom: 0;
     align-self: center;
 }
+
+.stat-form {
+    display: grid;
+    width : 40vw;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    column-gap: 0.5vw;
+    row-gap: 4px;
+}
+
+.min {
+    grid-column: 3;
+}
+
+.max {
+    grid-column : 4;
+}
+
+.stat-form .ing.add {
+    margin-top: 20px;
+    grid-column : 2 / 4;
+    justify-content: space-around;
+}
+
+.ing.add *:hover {
+    cursor:pointer;
+}
+
+.stat-form .send {
+    margin-top: 8px;
+    border-radius: 5px;
+    place-self: center;
+    grid-column : 2 / 4;
+    transition: all 0.4s ease-in-out;
+}
+
+.stat-form .send:hover{
+    border: 2px solid rgb(255, 255, 255);
+    background-color: rgb(20, 20, 20);
+    color :rgb(255, 255, 255);
+    cursor:pointer;
+}

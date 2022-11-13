@@ -1,7 +1,7 @@
 <script>
     export let data;
     let inputValue = '';
-    let searchResults;
+    let searchResults = [];
     function doSearch(pattern) {
         searchResults = data.payload.filter(
             p => {
@@ -12,10 +12,10 @@
 </script>
 
 <div class="heading-title">
-    <h1>Mes recettes</h1>
+    <h1>Statistiques</h1>
     <input type="text" name="search" id="search" bind:value={inputValue} on:input={doSearch(inputValue)}>
-    <a href="/recipes/add">
-        <img src="/plus-icon.svg" alt="add" style="height:20px" />
+    <a href="/stats/add">
+        Renseigner
     </a>
 </div>
 
