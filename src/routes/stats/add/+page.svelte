@@ -20,7 +20,7 @@
 <div class="recipe" style="text-align: center">
     {#each (searchResults || data.payload) as recipe}
     <div style="display:flex; justify-content: center; align-items: center; gap:10px;">
-            <h2 class="result">{recipe.name} </h2><a href="/stats/add/{recipe.id}"><img src="/edit-246.svg" alt="renseigner" style="height:15px"> </a>
+            <h2 class="result"><a href="/stats/add/{recipe.id}">{recipe.name} </a></h2>
     </div>
     {/each}
 </div>

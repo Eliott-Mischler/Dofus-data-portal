@@ -2,15 +2,17 @@ import {prisma} from '$lib/db';
 
 export async function load() {
     const itemStats = await prisma.ItemStats.findMany();
+    console.log(itemStats.map(e => e.itemId))
     const unstattedItemIds = await prisma.Recipe.findMany({
         where: {
             NOT : {
-                id : {
+                resultId : {
                     in : itemStats.map(e => e.itemId)
                 }
             }
         }
     });
+
     const unstattedItemNames = await prisma.ItemName.findMany({
         where : {
             id: {
@@ -18,6 +20,5 @@ export async function load() {
             }
         }
     })
-    console.log(unstattedItemNames);
     if(unstattedItemNames) return {payload : unstattedItemNames}
 }

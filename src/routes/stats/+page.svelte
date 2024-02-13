@@ -1,7 +1,7 @@
 <script>
     export let data;
     let inputValue = '';
-    let searchResults = [];
+    let searchResults;
     function doSearch(pattern) {
         searchResults = data.payload.filter(
             p => {
@@ -21,15 +21,15 @@
 
 
 <div class="recipes">
-    {#each (searchResults || data.payload) as recipe}
+    {#each (searchResults || data.payload) as item}
         <div class="recipe-card">
-            <h2 class="result">{recipe.result}</h2>
+            <h2 class="result">{item.name}</h2>
             <div class="ingredients">
-            {#each recipe.ingredients as ingredient, i}
-            <p class="ingredient">{recipe.amounts[i]} x {ingredient}</p>
+            {#each item.stats as stat}
+            <p class="ingredient">{stat.min} à {stat.max} {stat.name}</p>
             {/each}
+            <a href="/stats/add/{item.id}" style="position: absolute; bottom: 15px; right: 25px;"><img src="/edit-246.svg" alt="renseigner" style="height:25px"> </a>
             </div>
-            <p class="cost">Coût : {recipe.price}</p>
         </div>
     {/each}
 </div>

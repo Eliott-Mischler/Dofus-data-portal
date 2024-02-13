@@ -7,10 +7,13 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+
+
+
 model Snapshot {
   id        Int         @id @default(autoincrement())
-  dateTime  DateTime?   @map("date_time") @db.Timestamp(6)
-  type      String?
+  dateTime  DateTime   @map("date_time") @db.Timestamp(6) @default(now())
+  type      String?     
   itemPrice ItemPrice[]
 
   @@map("date_times")
@@ -27,7 +30,7 @@ model ItemPrice {
 }
 
 model ItemName {
-  id   Int     @id @default(autoincrement())
+  id   Int     @id
   name String?
 
   @@map("item_names")

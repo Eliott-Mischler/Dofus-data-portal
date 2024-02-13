@@ -13,6 +13,8 @@
 <h1 style="text-align: center">Statistiques de {data.target.name}</h1>
 <div class="centered-top-div">
 <form class="stat-form" method="POST">
+    <label for="level">Niveau de l'objet :</label>
+    <input class="level" type="text" name="level" id="level" required>
     <span class="min">min :</span>
     <span class="max">max :</span>
 
@@ -37,8 +39,8 @@
     </div>
     <button class="ing send" type="submit">Envoyer</button>
 </form>
-{#if form?.recipe}
-    <p class="success">Recette pour {form.itemName} créée avec succès !</p>
+{#if form?.success}
+    <p class="success">Statistiques ajoutées avec succès !</p>
 {/if}
 {#if form?.error}
     <p class="error">Erreur !</p>

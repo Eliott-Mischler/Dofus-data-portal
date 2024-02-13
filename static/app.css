@@ -129,9 +129,9 @@ nav div a:hover{
 
 .stat-form {
     display: grid;
-    width : 40vw;
-    grid-template-columns: 2fr 1fr 1fr 1fr;
-    column-gap: 0.5vw;
+    width : 32vw;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    column-gap: 4px;
     row-gap: 4px;
 }
 
@@ -166,4 +166,19 @@ nav div a:hover{
     background-color: rgb(20, 20, 20);
     color :rgb(255, 255, 255);
     cursor:pointer;
+}
+
+.stat-form .level {
+    grid-column: 2;
+}
+
+.recipe a {
+    text-decoration: none;
+    transition : all 0.2s ease-in-out;
+}
+
+.recipe a:hover {
+    cursor: pointer;
+    color:rgb(82, 30, 179);
+    border-bottom: 3px solid rgb(82, 30, 179);
 }
